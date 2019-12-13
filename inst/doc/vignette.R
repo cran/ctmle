@@ -1,4 +1,4 @@
-## ----eval=TRUE-----------------------------------------------------------
+## ----eval=TRUE----------------------------------------------------------------
 library(ctmle)
 library(dplyr)
 set.seed(123)
@@ -35,17 +35,17 @@ time_preorder <- system.time(
                                            order = rev(1:p), detailed = TRUE)
 )
 
-## ----eval = TRUE---------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 time_greedy
 time_preorder
 
-## ----eval = TRUE---------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 ctmle_discrete_fit1
 
-## ----eval = TRUE---------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 summary(ctmle_discrete_fit1)
 
-## ----eval = TRUE---------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 # Generate high-dimensional data
 set.seed(123)
 
@@ -69,10 +69,10 @@ Q <- cbind(rep(mean(Y[A == 0]), N), rep(mean(Y[A == 1]), N))
 
 glmnet_fit <- cv.glmnet(y = A, x = W, family = 'binomial', nlambda = 20)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 lambdas <-glmnet_fit$lambda[(which(glmnet_fit$lambda==glmnet_fit$lambda.min)):length(glmnet_fit$lambda)]
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 time_ctmlelasso1 <- system.time(
       ctmle_fit1 <- ctmleGlmnet(Y = Y, A = A,
                                 W = data.frame(W = W),
@@ -80,7 +80,7 @@ time_ctmlelasso1 <- system.time(
                                 family="gaussian",gbound=0.025, V=5)
 )
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 time_ctmlelasso2 <- system.time(
       ctmle_fit2 <- ctmleGlmnet(Y = Y, A = A,
                                 W = data.frame(W = W),
@@ -88,12 +88,12 @@ time_ctmlelasso2 <- system.time(
                                 family="gaussian",gbound=0.025, V=5)
 )
 
-## ------------------------------------------------------------------------
-gcv <- predict.cv.glmnet(glmnet_fit, newx=W, s="lambda.min",type="response")
+## -----------------------------------------------------------------------------
+gcv <- stats::predict(glmnet_fit, newx=W, s="lambda.min",type="response")
 gcv <- bound(gcv,c(0.025,0.975))
 
 s_prev <- glmnet_fit$lambda[(which(glmnet_fit$lambda == glmnet_fit$lambda.min))] * (1+5e-2)
-gcvPrev <- predict.cv.glmnet(glmnet_fit,newx = W,s = s_prev,type="response")
+gcvPrev <- stats::predict(glmnet_fit,newx = W,s = s_prev,type="response")
 gcvPrev <- bound(gcvPrev,c(0.025,0.975))
 
 time_ctmlelasso3 <- system.time(
@@ -103,23 +103,23 @@ time_ctmlelasso3 <- system.time(
                                 gbound=0.025, V = 5)
 )
 
-## ----eval = TRUE---------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 time_ctmlelasso1
 time_ctmlelasso2
 time_ctmlelasso3
 
-## ----eval = TRUE---------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 ctmle_fit1
 ctmle_fit2
 ctmle_fit3
 
-## ----eval = TRUE---------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 lambdas[ctmle_fit1$best_k]
 
-## ----eval = TRUE---------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 glmnet_fit$lambda.min
 
-## ----eval = TRUE---------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 lasso_fit <- cv.glmnet(x = as.matrix(W), y = A, alpha = 1, nlambda = 100, nfolds = 10)
 lasso_lambdas <- lasso_fit$lambda[lasso_fit$lambda <= lasso_fit$lambda.min][1:5]
 
@@ -160,19 +160,19 @@ SL.cv4lasso <- function (... , alpha = 1, lambda = lasso_lambdas[4]){
 
 SL.library = c('SL.cv1lasso', 'SL.cv2lasso', 'SL.cv3lasso', 'SL.cv4lasso', 'SL.glm')
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 V = 5
 folds <-by(sample(1:N,N), rep(1:V, length=N), list)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 gn_seq <- build_gn_seq(A = A, W = W, SL.library = SL.library, folds = folds)
 
-## ----eval = TRUE---------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 gn_seq$gn_candidates %>% dim
 gn_seq$gn_candidates_cv %>% dim
 gn_seq$folds %>% length
 
-## ----eval = TRUE---------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 ctmle_general_fit1 <- ctmleGeneral(Y = Y, A = A, W = W, Q = Q,
                                    ctmletype = 1, 
                                    gn_candidates = gn_seq$gn_candidates,

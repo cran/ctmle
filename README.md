@@ -1,7 +1,6 @@
 
-<!--
-[![](http://cranlogs.r-pkg.org/badges/simcausal)](https://CRAN.R-project.org/package=ctmle) [![](http://cranlogs.r-pkg.org/badges/grand-total/simcausal)](https://CRAN.R-project.org/package=ctmle)
--->
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ctmle)](https://CRAN.R-project.org/package=ctmle) [![](http://cranlogs.r-pkg.org/badges/ctmle)](https://CRAN.R-project.org/package=ctmle) [![](http://cranlogs.r-pkg.org/badges/grand-total/ctmle)](https://CRAN.R-project.org/package=ctmle)
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 Collaborative Targeted Maximum Likelihood Estimation
 ====================================================
@@ -37,8 +36,8 @@ library(ctmle)
 #> Loading required package: SuperLearner
 #> Loading required package: nnls
 #> Super Learner
-#> Version: 2.0-21
-#> Package created on 2016-11-11
+#> Version: 2.0-22
+#> Package created on 2017-07-18
 #> Loading required package: tmle
 #> Welcome to the tmle package, version 1.2.0-5
 #> 
@@ -96,10 +95,10 @@ Scalable (discrete) C-TMLE takes much less computation time:
 ``` r
 time_greedy
 #>    user  system elapsed 
-#>   1.594   0.038   1.633
+#>   1.589   0.045   1.646
 time_preorder
 #>    user  system elapsed 
-#>   0.832   0.037   0.869
+#>   0.994   0.012   1.008
 ```
 
 Show the brief results from greedy CTMLE:
@@ -241,13 +240,13 @@ Les't compare the running time for each LASSO-C-TMLE
 ``` r
 time_ctmlelasso1
 #>    user  system elapsed 
-#>  14.661   0.032  14.699
+#>  15.005   0.104  15.266
 time_ctmlelasso2
 #>    user  system elapsed 
-#>  17.806   0.021  17.833
+#>  18.351   0.083  18.528
 time_ctmlelasso3
 #>    user  system elapsed 
-#>   0.006   0.000   0.006
+#>   0.005   0.000   0.006
 ```
 
 Finally, we compare three C-TMLE estimates:
@@ -379,7 +378,7 @@ gn_seq <- build_gn_seq(A = A, W = W, SL.library = SL.library, folds = folds)
 #> CV SL.cv3lasso_All
 #> CV SL.cv4lasso_All
 #> CV SL.glm_All
-#> Non-Negative least squares convergence:  TRUE
+#> Non-Negative least squares convergence: TRUE
 #> full SL.cv1lasso_All
 #> full SL.cv2lasso_All
 #> full SL.cv3lasso_All
@@ -422,7 +421,17 @@ Citation
 
 If you used `ctmle` package in your research, please cite:
 
-> Ju, Cheng; Susan, Gruber; van der Laan, Mark J.; ctmle: Variable and Model Selection for Causal Inference with Collaborative Targeted Maximum Likelihood Estimation.
+> Ju, Cheng; Susan, Gruber; van der Laan, Mark J.; ctmle: Collaborative Targeted Maximum Likelihood Estimation. R package version 0.1.1, <https://CRAN.R-project.org/package=ctmle>.
+
+``` bibtex
+@Manual{,
+    title = {ctmle: Collaborative Targeted Maximum Likelihood Estimation},
+    author = {Cheng Ju and Susan Gruber and Mark van der Laan},
+    year = {2017},
+    note = {R package version 0.1.1},
+    url = {https://CRAN.R-project.org/package=ctmle},
+}
+```
 
 References (by inverse chronological order)
 -------------------------------------------
